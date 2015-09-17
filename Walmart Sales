@@ -1,0 +1,32 @@
+#############
+# Walmart stores.r -- growth map
+# uses GoogleVis
+########
+#  Set working directory for DSC
+getwd()
+root <- "C:/Users/rcarver/Dropbox/In process/DSC201/Data"
+setwd(root)
+
+#################################
+## Load libraries
+# install.packages("colorspace")
+install.packages("ggplot2")
+install.packages("googleVis")
+############################
+
+## Fetch Walmart Store locations data
+ws <- read.csv("Walmart New Sales 2013.csv")
+ws$Report.Date <- as.Date(ws$Report.Date, "%m/%d/%Y")
+ws$Obs <- c("Sales")
+
+plot(ws$Report.Date, ws$NomSalesB, type="l",col="blue")
+
+
+library(googleVis)   # invoke the googleVis package
+
+v<- gvisMotionChart(ws, idvar="Obs", timevar="Report.Date",  
+                   xvar="Year", yvar="NomSalesB",
+                   colorvar = "Quarter", sizevar = "RealNetSalesB",
+                    options =list('width'=1350, 'sizeOption'='3'))
+
+plot(v)
